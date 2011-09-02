@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 test -d target/run && rm -rf target/run
-mkdir target/run
+mkdir -p target/run
 mvn package
 cp target/hadoop-thumbnail-1.0-SNAPSHOT.jar target/run
 cp src/main/c/* target/run
