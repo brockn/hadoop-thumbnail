@@ -6,6 +6,7 @@ Prereqs:
   ImageMagick
   ImageMagick-devel
   gcc
+  maven
 
 Tested on:
   CentOS release 5.6 (Final)
