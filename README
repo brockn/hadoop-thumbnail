@@ -1,0 +1,14 @@
+This project is a demo of creating thumbnail images via MapReduce in 
+a map only job using ImageMagick via JNI.
+
+Prereqs:
+  Java
+  ImageMagick
+  ImageMagick-devel
+  gcc
+
+Tested on:
+  CentOS release 5.6 (Final)
+
+Try it on a machine with the `hadoop' command configured:
+  $ ./run-thumbnail-mapreduce.sh
