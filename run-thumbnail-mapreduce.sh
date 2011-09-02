@@ -1,5 +1,15 @@
 #!/bin/bash
 set -e
+if [[ ! -f .imagemagick ]] && [[ -f /etc/redhat-release ]]
+then
+  if ! rpm -q ImageMagick 2>/dev/null 1>/dev/null
+  then
+    echo "WARN: You do not seem to have ImageMagick and ImageMagick-devel installed."
+    sleep 5
+  fi
+  touch .imagemagick
+fi
+
 test -d target/run && rm -rf target/run
 mkdir -p target/run
 mvn package
