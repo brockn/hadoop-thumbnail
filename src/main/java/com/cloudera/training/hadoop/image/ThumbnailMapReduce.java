@@ -28,7 +28,9 @@ public class ThumbnailMapReduce extends InputOutputDriver {
     public void map(Text key, BytesWritable value,
         OutputCollector<Text, BytesWritable> output,
         Reporter reporter) throws IOException {
-      byte[] result = NativeFunctions.thumbnailMapper(value.getBytes(), 0, value.getLength());
+      byte[] result = NativeFunctions.thumbnailMapper(value.getBytes(), 
+          0, value.getLength());
+      
       if (null != result) {
         // reusing writable results in more expensive copy
         output.collect(key, new BytesWritable(result));

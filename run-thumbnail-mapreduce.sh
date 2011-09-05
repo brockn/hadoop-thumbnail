@@ -28,7 +28,7 @@ hadoop jar hadoop-thumbnail-*.jar com.cloudera.training.hadoop.io.CopyDirToSeque
   -input large -output img/input
 
 hadoop jar hadoop-thumbnail-*.jar com.cloudera.training.hadoop.image.ThumbnailMapReduce \
-  -files libNativeFunctions-$(uname -s)-$(uname -m).so \
+  -files libImageNativeFunctions-$(uname -s)-$(uname -m).so \
   -input img/input \
   -output img/output \
   -delete

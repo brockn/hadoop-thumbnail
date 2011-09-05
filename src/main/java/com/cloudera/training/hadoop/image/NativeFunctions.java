@@ -2,7 +2,7 @@ package com.cloudera.training.hadoop.image;
 
 
 public class NativeFunctions {
-
+  
   public static byte[] thumbnailMapper(byte[] image, int start, int count) {
     return thumbnailMapper0(image, start, count);
   }
@@ -10,7 +10,7 @@ public class NativeFunctions {
 
   
   static {
-    String lib = "NativeFunctions-";
+    String lib = "ImageNativeFunctions-";
     String os = System.getProperty("os.name");
     if(os == null) {
       throw new NullPointerException("System property os.name");

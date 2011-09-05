@@ -1,5 +1,5 @@
 #!/bin/bash
-LIB="libNativeFunctions-$(uname -s)-$(uname -m).so"
+LIB="libImageNativeFunctions-$(uname -s)-$(uname -m).so"
 CFLAGS="-I$JAVA_HOME/include"
 if [[ $(uname -s) == "Linux" ]]
 then
