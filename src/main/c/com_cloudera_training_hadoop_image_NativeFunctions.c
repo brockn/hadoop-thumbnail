@@ -85,7 +85,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_cloudera_training_hadoop_image_NativeFunct
     image_t image;
     jboolean isCopy;
     image.source = (char*) (*env)->GetByteArrayElements(env, value, &isCopy);
-    if(image.source == NULL) {
+    if(image.source == NULL || (*env)->ExceptionOccurred(env)) {
         return NULL;
     }
     image.sourceStart = valueStart;
@@ -96,11 +96,14 @@ JNIEXPORT jbyteArray JNICALL Java_com_cloudera_training_hadoop_image_NativeFunct
         return NULL;
     }
     result = (*env)->NewByteArray(env, image.destinationLength);
-    if(result == NULL) {
+    if(result == NULL || (*env)->ExceptionOccurred(env)) {
         cleanupJava(env, &image, &value, isCopy);
         return NULL;
     }
     (*env)->SetByteArrayRegion(env, result, 0, image.destinationLength, (jbyte*)image.destination);
+    if((*env)->ExceptionOccurred(env)) {
+      result = NULL;
+    }
     cleanupJava(env, &image, &value, isCopy);
     return result;
 }
