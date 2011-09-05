@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
-if [[ ! -f .imagemagick ]] && [[ -f /etc/redhat-release ]]
+if [[ ! -f .imagemagick ]]
 then
-  if ! rpm -q ImageMagick 2>/dev/null 1>/dev/null
+  if ! which Wand-config 2>/dev/null 1>/dev/null
   then
-    echo "WARN: You do not seem to have ImageMagick and ImageMagick-devel installed."
+    echo "WARN: You do not seem to have ImageMagick (and ImageMagick-devel on RH) installed."
     sleep 5
   fi
   touch .imagemagick
@@ -27,8 +27,10 @@ mkdir thumbnails
 hadoop jar hadoop-thumbnail-*.jar com.cloudera.training.hadoop.io.CopyDirToSequenceFile \
   -input large -output img/input
 
-hadoop jar hadoop-thumbnail-*.jar com.cloudera.training.hadoop.image.ThumbnailMapReduce \
-  -files libImageNativeFunctions-$(uname -s)-$(uname -m).so \
+# In case MR is in `local' mode, set LD_LIBRARY_PATH on job submit
+env LD_LIBRARY_PATH=. java -classpath $(ls hadoop-thumbnail-*.jar):$(hadoop classpath) \
+  com.cloudera.training.hadoop.image.ThumbnailMapReduce \
+  -files $(ls libImageNativeFunctions-$(uname -s)-$(uname -m).*) \
   -input img/input \
   -output img/output \
   -delete
