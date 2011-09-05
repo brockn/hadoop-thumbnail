@@ -16,20 +16,22 @@ public class NativeFunctions {
       throw new NullPointerException("System property os.name");
     }
     os = os.trim().toLowerCase();
-    if(os.equals("linux")) {
-      lib += "Linux-";
-    } else {
-      throw new RuntimeException("Unknown os " + os);
-    }
     String bits = System.getProperty("sun.arch.data.model");
     if(bits == null) {
       throw new NullPointerException("System property sun.arch.data.model");
     }
     bits = bits.trim().toLowerCase();
-    if(bits.equals("32")) {
-      lib += "i686";
+    if(os.equals("linux")) {
+      lib += "Linux-";
+      if(bits.equals("32")) {
+        lib += "i686";
+      } else {
+        lib += "x86_64";
+      }
+    } else if(os.equals("mac os x")) {
+      lib += "Darwin-i386";
     } else {
-      lib += "x86_64";
+      throw new RuntimeException("Unknown os " + os);
     }
     System.loadLibrary(lib);
   }

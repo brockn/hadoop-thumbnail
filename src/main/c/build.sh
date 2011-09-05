@@ -1,9 +1,21 @@
 #!/bin/bash
-LIB="libNativeFunctions-$(uname -s)-$(uname -m).so"
-CFLAGS="-I$JAVA_HOME/include"
-if [[ $(uname -s) == "Linux" ]]
+SYSTEM=$(uname -s)
+LIB="libNativeFunctions-${SYSTEM}-$(uname -m)"
+CFLAGS="$(Wand-config --cflags) -I$JAVA_HOME/include"
+LDFLAGS="-L/opt/local/lib"
+if [[ $SYSTEM == "Linux" ]]
 then
-    CFLAGS="$CFLAGS -I$JAVA_HOME/include/linux"
+  CFLAGS="$CFLAGS -I$JAVA_HOME/include/linux"
+  LDFLAGS="$LDFLAGS -lWand -lMagick"
+  LIB="${LIB}.so"
+elif [[ $SYSTEM == "Darwin" ]]
+then
+  LDFLAGS="$LDFLAGS -lMagickWand -lMagickCore -dynamiclib -framework JavaVM"
+  LIB="${LIB}.jnilib"
+else
+  echo "Unknown system, hacking required" 1>&2
+  exit 1
 fi
 SRC="com_cloudera_training_hadoop_image_NativeFunctions.c"
-bash -x -c "gcc $SRC -Wall -fPIC $CFLAGS -shared -Wl,-soname,$LIB -lWand -lMagick -o $LIB" || exit $?
+set -x
+gcc $SRC -Wall -fPIC $CFLAGS -shared $LDFLAGS -o $LIB
