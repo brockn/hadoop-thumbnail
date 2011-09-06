@@ -3,13 +3,13 @@ a map only job using ImageMagick via JNI.
 
 Prereqs:
   Java
-  ImageMagick (ImageMagick-devel on RH)
+  ImageMagick (& ImageMagick-devel on RH)
   gcc
   maven3
 
 Tested on:
-  CentOS release 5.6 (Final)
-  Mac OS X 10.8.0
+  CentOS release 5.6
+  Mac OS X 10.8.0 (very lightly tested)
 
 Try it on a machine with the `hadoop' command configured:
   $ ./run-thumbnail-mapreduce.sh

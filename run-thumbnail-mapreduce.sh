@@ -27,8 +27,10 @@ mkdir thumbnails
 hadoop jar hadoop-thumbnail-*.jar com.cloudera.training.hadoop.io.CopyDirToSequenceFile \
   -input large -output img/input
 
-# In case MR is in `local' mode, set LD_LIBRARY_PATH on job submit
-env LD_LIBRARY_PATH=. java -classpath $(ls hadoop-thumbnail-*.jar):$(hadoop classpath) \
+# env JAVA_LIBRARY_PATH=. hadoop jar addone.jar \
+#  AddOneMapReduce -jt local addone/input addone/output
+
+env JAVA_LIBRARY_PATH=. hadoop jar hadoop-thumbnail-*.jar \
   com.cloudera.training.hadoop.image.ThumbnailMapReduce \
   -files $(ls libImageNativeFunctions-$(uname -s)-$(uname -m).*) \
   -input img/input \
